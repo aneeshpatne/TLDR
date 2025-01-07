@@ -1,42 +1,33 @@
-/* General Reset */
-body {
+body{
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin:0;
+    padding:0;
     width: 300px;
     height: 400px;
     background-color: #f4f4f9;
-  }
-  
-  /* Header Styling */
-  header {
+}
+header{
     background-color: #4caf50;
-    color: white;
-    padding: 10px;
+    color:#FFFFFF;
+    padding: 5px;
     text-align: center;
     border-bottom: 2px solid #388e3c;
-  }
-  
-  /* Summary Box */
-  #summary-box {
-    margin: 20px;
+}
+#summary-box{
+    display: none;
+    margin:20px;
     padding: 10px;
     height: 200px;
     border: 2px dashed #ccc;
-    background-color: #fff;
-    text-align: center;
-    display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  #summary-box #placeholder {
-    color: #888;
+
+}
+#summary-box #summary-text{
+    color: #000;
     font-size: 14px;
-  }
-  
-  /* Action Buttons */
-  #actions {
+}
+#actions {
     display: flex;
     justify-content: space-between;
     margin: 20px;
@@ -63,4 +54,3 @@ body {
   #settings-btn:hover {
     background-color: #666;
   }
-  
