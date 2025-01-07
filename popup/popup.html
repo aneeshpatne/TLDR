@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="popup.css">
+     <title>Summariser</title>
 </head>
 <body>
-    
-</body>
+    <div id="popup">
+      <header>
+        <h1>Web Summarizer</h1>
+      </header>
+      <main>
+        <div id="summary-box">
+          <p id="placeholder">Summary will appear here</p>
+        </div>
+        <div id="actions">
+          <button id="summarize-btn">Summarize Page</button>
+          <button id="settings-btn">⚙️ Settings</button>
+        </div>
+      </main>
+    </div>
+    <script src="popup.js"></script>
+  </body>
 </html>
