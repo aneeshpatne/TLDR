@@ -1,24 +1,32 @@
-if (document.body){
-    const article = new Readibility(document.cloneNode(true)).parse();
-if (article){
-    console.log("Title:", article.title);
-    console.log("Content:", article.textContent);
-    console.log("HTML:", article.content);
-}else{
-    console.log("No article found on this page.");
-}
-}
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "extractContent") {
-      const article = new Readability(document.cloneNode(true)).parse();
-      if (article) {
-        sendResponse({
-          title: article.title,
-          content: article.textContent
-        });
-      } else {
-        sendResponse({ error: "Unable to extract content." });
-      }
-    }
-  });
+import Readability from './libs/readability.min.js';
+
+// Ensure the script runs only if the page has a <body> element
+if (document.body) {
+  const article = new Readability(document.cloneNode(true)).parse();
   
+  if (article) {
+    console.log("Title:", article.title); // Logs the article's title
+    console.log("Content:", article.textContent); // Logs the plain text content
+    console.log("HTML:", article.content); 
+  } else {
+    console.log("No article found on this page.");
+  }
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "extractContent") {
+    const article = new Readability(document.cloneNode(true)).parse();
+
+    if (article) {
+      sendResponse({
+        title: article.title,
+        content: article.textContent,
+      });
+    } else {
+      sendResponse({ error: "Unable to extract content." });
+    }
+  }
+
+  
+  return true;
+});
