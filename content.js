@@ -1,32 +1,42 @@
-import Readability from './libs/readability.min.js';
-
-// Ensure the script runs only if the page has a <body> element
-if (document.body) {
-  const article = new Readability(document.cloneNode(true)).parse();
+if (typeof window.readabilityLoaded === 'undefined') {
+    window.readabilityLoaded = false;
+    window.extractedArticle = null;
   
-  if (article) {
-    console.log("Title:", article.title); // Logs the article's title
-    console.log("Content:", article.textContent); // Logs the plain text content
-    console.log("HTML:", article.content); 
-  } else {
-    console.log("No article found on this page.");
-  }
-}
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "extractContent") {
-    const article = new Readability(document.cloneNode(true)).parse();
-
-    if (article) {
-      sendResponse({
-        title: article.title,
-        content: article.textContent,
-      });
-    } else {
-      sendResponse({ error: "Unable to extract content." });
+    function initReadability() {
+      if (!window.readabilityLoaded && typeof Readability !== 'undefined') {
+        window.readabilityLoaded = true;
+  
+        // Parse the article once and store it globally
+        window.extractedArticle = new Readability(document.cloneNode(true)).parse();
+        if (window.extractedArticle) {
+          console.log("Extracted Title:", window.extractedArticle.title);
+          console.log("Extracted Text:", window.extractedArticle.textContent);
+        } else {
+          console.log("No article content found on this page.");
+        }
+      }
     }
-  }
-
   
-  return true;
-});
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.action === "extractContent") {
+        try {
+          initReadability(); // Ensure Readability is initialized
+          if (window.extractedArticle) {
+            sendResponse({
+              title: window.extractedArticle.title,
+              content: window.extractedArticle.textContent,
+            });
+          } else {
+            sendResponse({ error: "Unable to extract content" });
+          }
+        } catch (error) {
+          console.error("Extraction error:", error);
+          sendResponse({ error: error.message });
+        }
+      }
+      return true;
+    });
+  
+    initReadability();
+  }
+  
