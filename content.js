@@ -1,25 +1,20 @@
-// content.js
-if (typeof window.readabilityLoaded === 'undefined') {
-    window.readabilityLoaded = false;
+if (!window.readabilityLoaded) {
+    window.readabilityLoaded = true;
   
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.action === "extractContent") {
-        try {
-          const article = new Readability(document.cloneNode(true)).parse();
-          if (article) {
-            console.log("Extracted Text:", article.textContent);
-            sendResponse({
-              title: article.title,
-              content: article.textContent
-            });
-          } else {
-            sendResponse({ error: "Unable to extract content" });
-          }
-        } catch (error) {
-          console.error("Extraction error:", error);
-          sendResponse({ error: error.message });
+        const article = new Readability(document.cloneNode(true)).parse();
+        if (article) {
+          
+          sendResponse({
+            title: article.title,
+            content: article.textContent
+          });
+        } else {
+          sendResponse({ error: "Unable to extract content" });
         }
       }
-      return true;
+      return true; // Keep the message channel open for asynchronous response
     });
   }
+  
