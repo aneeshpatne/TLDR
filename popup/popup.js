@@ -13,7 +13,7 @@ document.getElementById("summarize-btn").addEventListener("click", async () => {
         }
       });
     document.getElementById("summary-box").style.display = "flex";
-    document.getElementById("summary-text").innerText = JSON.stringify(data);
+    document.getElementById("summary-text").innerText = data[0].result;
     } catch (error) {
       console.error(error);
     }
