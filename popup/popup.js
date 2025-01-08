@@ -12,8 +12,17 @@ document.getElementById("summarize-btn").addEventListener("click", async () => {
           })
         }
       });
+    
+    const response = await fetch("http://127.0.0.1:5000/extract", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({text: data[0].result}),
+    })
+    data = await response.json();
     document.getElementById("summary-box").style.display = "flex";
-    document.getElementById("summary-text").innerText = data[0].result;
+    document.getElementById("summary-text").innerText = data.message;
     } catch (error) {
       console.error(error);
     }
