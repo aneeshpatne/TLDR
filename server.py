@@ -36,7 +36,7 @@ def extract():
                 - Key point 2
                 '''
         response = client.chat.completions.create(
-            model="meta-llama/llama-3.1-405b-instruct:free", 
+            model="mistralai/mistral-7b-instruct:free", 
             messages=[
                 {"role": "system", "content": "You are a helpful assistant summarizing webpage content."},
                 {"role": "user", "content": prompt}
