@@ -22,7 +22,7 @@ document.getElementById("summarize-btn").addEventListener("click", async () => {
       if (response?.content) {
         console.log("Content extracted:", response.content);
         document.getElementById("summary-box").style.display = "flex";
-        document.getElementById("summary-box").textContent = response.content;
+        document.getElementById("summary-text").textContent = response.content;
       } else {
         document.getElementById("summary-box").textContent = "No content found.";
       }
