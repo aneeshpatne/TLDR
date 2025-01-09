@@ -3,7 +3,7 @@
     "name": "TLDR",
     "version": "1.0",
     "description": "Summarize web pages with AI.",
-    "permissions": ["activeTab", "scripting", "tabs"],
+    "permissions": ["activeTab", "scripting", "tabs", "storage"],
     "action": {
       "default_popup": "popup/popup.html",
       "default_icon": {
