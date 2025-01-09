@@ -1,9 +1,13 @@
 document.getElementById('summarize-btn').addEventListener('click', async () =>{
-  let summarybox =document.getElementById('summary-box')
-  let summaryText = document.getElementById('summary-text')
-  try{
-    summarybox.style.display = 'block';
+  let summarybox = document.getElementById('summary-box');
+  let summaryText = document.getElementById('summary-text');
+  
+  try {
+    summarybox.style.display = 'flex';
+    summarybox.offsetHeight;
+    summarybox.style.height = '20px';
     summaryText.innerText = 'Loading...';
+
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const url = tab.url;
     const [HTMLcontent] = await chrome.scripting.executeScript({
@@ -12,22 +16,27 @@ document.getElementById('summarize-btn').addEventListener('click', async () =>{
         return document.body.innerText;
       }
     })
+    
     const response = await fetch("http://127.0.0.1:5000/extract", {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'
       },
-      body :JSON.stringify({text: HTMLcontent.result})
+      body: JSON.stringify({text: HTMLcontent.result})
     })
+    
     const data = await response.json();
     document.getElementById('summarize-btn').style.display = 'none';
     summaryText.innerText = data.message;
-
-  
-
-  }
-  catch(error){
+    requestAnimationFrame(() => {
+      summarybox.style.height = summaryText.scrollHeight + 'px';
+    });
+ 
+  } catch(error) {
     console.error(error);
-    summaryText.innerText = 'An error occured while summarizing the text';
+    summaryText.innerText = 'An error occurred while summarizing the text';
+    requestAnimationFrame(() => {
+      summarybox.style.height = summaryText.scrollHeight + 'px';
+    });
   }
 })

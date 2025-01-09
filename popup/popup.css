@@ -15,15 +15,21 @@ header{
     border-bottom: 2px solid #2b2249;
     animation: slideDown 1s ease-in-out;
 }
-#summary-box{
-    display: none;
-    margin:20px;
-    padding: 10px;
-    border: 2px dashed #ccc;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 1s ease-in-out forwards;
+#summary-box {
+  display: none;
+  margin: 20px;
+  padding: 10px;
+  border: 2px dashed #ccc;
+  justify-content: center;
+  align-items: center;
+  transition: height 0.8s ease;
+  overflow: hidden; 
+  animation: fadeIn 1s ease-in-out;
+}
 
+#summary-text {
+  margin: 0;
+  width: 100%; 
 }
 #summary-box #summary-text{
     color: #000;
@@ -61,4 +67,15 @@ header{
     to {
         opacity: 1;
     }
+}
+
+@keyframes slideDown {
+  from {
+      transform: translateY(-20px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
 }
