@@ -3,7 +3,7 @@
   --secondary-color:#5e8080;
 }
 body{
-    font-family: "Roboto", serif;
+  font-family: "Montserrat", serif;
     margin:0;
     padding:0;
     width: 300px;
@@ -20,7 +20,11 @@ header{
     font-size: 40px;
 
 }
-
+#loading{
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
 #summary-box {
   display: none;
   margin: 20px;

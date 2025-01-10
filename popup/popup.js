@@ -2,6 +2,7 @@ let summarybox = document.getElementById('summary-box');
 let summaryText = document.getElementById('summary-text');
 let resetBtn = document.getElementById('reset-btn');
 let summaryBtn = document.getElementById('summarize-btn');
+let loading = document.getElementById('loading');
 document.getElementById('reset-btn').addEventListener('click', () => {
   summarybox.style.visibility = 'hidden';
   summaryText.innerText = '';
@@ -25,9 +26,9 @@ document.addEventListener('DOMContentLoaded', async () =>{
     if(result[encodedUrl]){
       summaryText.innerText = result[encodedUrl];
       summarybox.style.display = 'flex';
-      requestAnimationFrame(() => {
-        summarybox.style.height = summaryText.scrollHeight + 'px';
-      });
+      summarybox.style.display = 'flex';
+      setTimeout(() => {
+        summarybox.style.height = summaryText.scrollHeight + 'px'}, 700);
       summaryBtn.style.display = 'none';
       resetBtn.style.display = 'block';
     }
@@ -39,7 +40,7 @@ document.getElementById('summarize-btn').addEventListener('click', async () =>{
     summarybox.style.display = 'flex';
     summarybox.offsetHeight;
     summarybox.style.height = '20px';
-    summaryText.innerText = 'Loading...';
+    loading.style.display = 'flex';
     document.getElementById('summarize-btn').style.display = 'none';
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const url = tab.url;
@@ -59,7 +60,7 @@ document.getElementById('summarize-btn').addEventListener('click', async () =>{
     })
     
     const data = await response.json();
-    
+    loading.style.display = 'none';
     summaryText.innerText = data.message;
     const encodedUrl = encodeURIComponent(url);
     chrome.storage.local.set({[encodedUrl]: data.message}, () =>{
@@ -73,6 +74,8 @@ document.getElementById('summarize-btn').addEventListener('click', async () =>{
     
   } catch(error) {
     console.error(error);
+    loading.style.display = 'none';
+    resetBtn.style.display = 'block';
     summaryText.innerText = 'An error occurred while summarizing the text';
     requestAnimationFrame(() => {
       summarybox.style.height = summaryText.scrollHeight + 'px';
